@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Branch And Bound</title>
+
+  <script>
+    function start_magic() {
+      let valor = document.querySelector("#valor").value
+      alert("O resultado é: " + JSON.parse(valor))
+    }
+  </script>
+</head>
+
+<body>
+  <span>Escreva no formato [[0,0,1],[0,-1,0]]</span>
+  <input type="text" id="valor" style="display: block; margin: 1rem 0 1rem 0;">
+  <button onclick="start_magic()">Fazer a magica acontecer</button>
+</body>
+
+</html>

@@ -13,13 +13,38 @@
       alert("O resultado é: " + JSON.parse(valor))
     }
 
+    function procura_caminhos(matriz) {
+
+      // Vetor que salva os caminhos em ordem crescente de distancia
+      const caminhos_viaveis = []
+
+      // Passa pelos nos da matriz
+      for (let i = 0; i < matriz.length; i++) {
+        const no = matriz[i]
+
+        // Caminhos disponiveis para o no atual
+        const caminhos = []
+
+        // Passa pelas posicoes do no
+        for (let j = 0; j < no.length; i++) {
+          if (no[j] == 0)
+            continue
+
+          // Salva em ordem crescente de mais desejado
+          caminhos = inserirOrdenado(caminhos, { index: j, value: no[j] })
+        }
+
+        caminhos_viaveis.push(caminhos)
+      }
+    }
+
     function inserirOrdenado(vet, elem) {
       if (vet.length == 0) {
         vet.push(elem)
         return vet
       }
       for (let i = 0; i < vet.length; i++) {
-        if (elem < vet[i]) {
+        if (elem.value < vet[i].value) {
           if (i > 0) {
             vet.splice(i - 1, 0, elem)
             return vet

@@ -12,6 +12,26 @@
       let valor = document.querySelector("#valor").value
       alert("O resultado é: " + JSON.parse(valor))
     }
+
+    function inserirOrdenado(vet, elem) {
+      if (vet.length == 0) {
+        vet.push(elem)
+        return vet
+      }
+      for (let i = 0; i < vet.length; i++) {
+        if (elem < vet[i]) {
+          if (i > 0) {
+            vet.splice(i - 1, 0, elem)
+            return vet
+          } else {
+            vet.unshift(elem)
+            return vet
+          }
+        }
+      }
+      vet.push(elem)
+      return vet
+    }
   </script>
 </head>
 

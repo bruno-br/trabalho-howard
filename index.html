@@ -10,25 +10,40 @@
   <script>
     function start_magic() {
       let valor = document.querySelector("#valor").value
-      alert("O resultado é: " + JSON.parse(valor))
+      const matriz = JSON.parse(valor)
+      const caminhos = procura_caminhos(matriz)
+      const inicio = 0
+      const destino = caminhos.length - 1
+      console.log(matriz)
+      console.log(caminhos)
+      const result = explora_caminhos(caminhos, inicio, destino, 0, [])
+      alert("A distância é: " + result.distancia)
     }
 
     function procura_caminhos(matriz) {
-
+      console.log(".")
       // Vetor que salva os caminhos em ordem crescente de distancia
       const caminhos_viaveis = []
 
       // Passa pelos nos da matriz
       for (let i = 0; i < matriz.length; i++) {
         const no = matriz[i]
+        console.log(no)
 
         // Caminhos disponiveis para o no atual
-        const caminhos = []
+        let caminhos = []
 
         // Passa pelas posicoes do no
-        for (let j = 0; j < no.length; i++) {
+        for (let j = 0; j < no.length; j++) {
           if (no[j] == 0)
             continue
+
+          if (no[j] == -1) {
+            caminhos.push({ index: j, value: no[j] })
+            continue
+          }
+
+          console.log("  " + no[j])
 
           // Salva em ordem crescente de mais desejado
           caminhos = inserirOrdenado(caminhos, { index: j, value: no[j] })
@@ -36,6 +51,7 @@
 
         caminhos_viaveis.push(caminhos)
       }
+      return caminhos_viaveis
     }
 
     function inserirOrdenado(vet, elem) {
@@ -44,7 +60,7 @@
         return vet
       }
       for (let i = 0; i < vet.length; i++) {
-        if (elem.value < vet[i].value) {
+        if (elem.value < vet[i].value || vet[i].value == -1) {
           if (i > 0) {
             vet.splice(i - 1, 0, elem)
             return vet
@@ -56,6 +72,32 @@
       }
       vet.push(elem)
       return vet
+    }
+
+    function procura_destino(caminhos, destino) {
+      for (const caminho of caminhos) {
+        if (caminho.index == destino) {
+          return { achou: true, distancia: caminho.value }
+        }
+      }
+      return { achou: false }
+    }
+
+    function explora_caminhos(caminhos, no_atual, destino, distancia, nos_percorridos) {
+
+      const result = procura_destino(caminhos[no_atual], destino)
+      if (result.achou) {
+        return result
+      }
+
+      while (no_atual < caminhos.length - 1) {
+        let prox_no = nos_percorridos.length + 1
+        const resultExplore = explora_caminhos(caminhos, prox_no, destino, distancia, [...nos_percorridos, no_atual])
+        if (resultExplore.achou) {
+          return { achou: true, distancia: distancia + resultExplore.distancia }
+        }
+      }
+      return { achou: false }
     }
   </script>
 </head>

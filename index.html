@@ -17,11 +17,14 @@
       console.log(matriz)
       console.log(caminhos)
       const result = explora_caminhos(caminhos, inicio, destino, 0, [])
-      alert("A distância é: " + result.distancia)
+      if (result.achou) {
+        alert("A distância é: " + result.distancia + " e os nós percorridos foram " + result.nos_percorridos)
+      } else {
+        alert("Caminho não encontrado")
+      }
     }
 
     function procura_caminhos(matriz) {
-      console.log(".")
       // Vetor que salva os caminhos em ordem crescente de distancia
       const caminhos_viaveis = []
 
@@ -84,17 +87,17 @@
     }
 
     function explora_caminhos(caminhos, no_atual, destino, distancia, nos_percorridos) {
-
+      console.log('.')
       const result = procura_destino(caminhos[no_atual], destino)
       if (result.achou) {
-        return result
+        return { achou: true, distancia: distancia + result.distancia, nos_percorridos: [...nos_percorridos, no_atual, destino] }
       }
 
       while (no_atual < caminhos.length - 1) {
         let prox_no = nos_percorridos.length + 1
-        const resultExplore = explora_caminhos(caminhos, prox_no, destino, distancia, [...nos_percorridos, no_atual])
+        const resultExplore = explora_caminhos(caminhos, prox_no, destino, distancia + prox_no, [...nos_percorridos, no_atual])
         if (resultExplore.achou) {
-          return { achou: true, distancia: distancia + resultExplore.distancia }
+          return { achou: true, distancia: distancia + resultExplore.distancia, nos_percorridos: resultExplore.nos_percorridos }
         }
       }
       return { achou: false }
